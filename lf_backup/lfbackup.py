@@ -12,7 +12,7 @@ import multiprocessing
 import logging
 import logging.handlers
 
-import lflib
+import lf_backup
 
 owner_files_dict={}
 
@@ -100,13 +100,13 @@ def backup_file(filename,container,prefix,container_dir,crier):
         # upload file to swift to container:destname
         print("uploading file",filename)
         #crier.info("lf-backup: uploading file %s" % (filename))
-        lflib.upload_to_swift(filename,destname,container)
+        lf_backup.upload_to_swift(filename,destname,container)
 
 # build db of container files by name
 def build_container_dir(container):
     container_dir={}
 
-    c_objs=lflib.get_sw_container(container)
+    c_objs=lf_backup.get_sw_container(container)
     for obj in c_objs:
         container_dir[obj['name']]=[obj['bytes'],obj['last_modified']] 
 
@@ -145,7 +145,7 @@ def mail_report(username,files):
     for file in files:
        body+=(file+"\n")
 
-    lflib.send_mail([username],"lf-backup: files uploaded",body)
+    lf_backup.send_mail([username],"lf-backup: files uploaded",body)
 
 # convert owner_files_dict into files by username and mail each
 def mail_reports():
