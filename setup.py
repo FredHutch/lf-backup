@@ -69,7 +69,7 @@ lf-backup is a tool for backing up large files to object storage
         # to point to appropriate python and allow experimental python 2.X
         # support.
         'console_scripts': [
-            'lf-backup.py=lf_backup.lf-backup:main',
+            'lf-backup.py=lf_backup.lf-backup.py:main',
         ]
     }
 )
