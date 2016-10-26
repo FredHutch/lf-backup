@@ -1,13 +1,13 @@
 from setuptools import setup
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 
-try:
-    from pypandoc import convert
-    read_md = lambda f: convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: open(f, 'r').read()
+#try:
+#    from pypandoc import convert
+#    read_md = lambda f: convert(f, 'rst')
+#except ImportError:
+#    print("warning: pypandoc module not found, could not convert Markdown to RST")
+#    read_md = lambda f: open(f, 'r').read()
 
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
@@ -50,7 +50,7 @@ setup(
     description='''\
 lf-backup is a tool for backing up large files to object storage
 , e.g. swift.''',
-    long_description=read_md('README.md'),
+    #long_description=read_md('README.md'),
     packages=['lf_backup'],
     scripts=['lf_backup/lf-backup'],
     author = 'Some Person',
@@ -69,7 +69,7 @@ lf-backup is a tool for backing up large files to object storage
         # to point to appropriate python and allow experimental python 2.X
         # support.
         'console_scripts': [
-            'lf-backup.py=lf_backup.lfbackup:main',
+            'lfbackup.py=lf_backup.lfbackup:main',
         ]
     }
 )
