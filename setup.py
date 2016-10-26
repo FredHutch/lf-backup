@@ -1,6 +1,6 @@
 from setuptools import setup
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 
 #try:
 #    from pypandoc import convert
@@ -63,6 +63,7 @@ lf-backup is a tool for backing up large files to object storage
     install_requires=[
         'python-swiftclient>=3,<4',
         'python-keystoneclient>=2,<3',
+        'setuptools>=28',
         'wheel'
         ],
     entry_points={
