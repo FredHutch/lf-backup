@@ -20,4 +20,4 @@ if [[ -d /app/Lmod/lmod/lmod/init ]]; then
   module load python3/3.5.0 > /dev/null 2>&1
 fi 
 
-./${scriptname}.py $@
+${scriptname}.py $@
