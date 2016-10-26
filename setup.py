@@ -1,6 +1,6 @@
 from setuptools import setup
 
-__version__ = "0.0.1"
+__version__ = "0.0.3"
 
 try:
     from pypandoc import convert
@@ -28,13 +28,10 @@ CLASSIFIERS = [
     "Operating System :: POSIX :: Linux",
     "Operating System :: POSIX :: Other",
     "Operating System :: Unix",
-    "Programming Language :: Python :: 2",
-    "Programming Language :: Python :: 2.7",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Unix Shell",
     "Topic :: Desktop Environment :: File Managers",
     "Topic :: Internet",
@@ -64,7 +61,6 @@ lf-backup is a tool for backing up large files to object storage
     classifiers = CLASSIFIERS,
     # 'python-swiftclient>=2.5,<3','python-keystoneclient>=1.5,<2'
     install_requires=[
-        'psutil>=4',
         'python-swiftclient>=3,<4',
         'python-keystoneclient>=2,<3'
         ],
