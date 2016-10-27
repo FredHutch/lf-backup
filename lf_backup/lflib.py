@@ -145,11 +145,21 @@ def sw_post(*args):
     sw_shell(shell.st_post,*args)
 
 def upload_to_swift(filename,destname,container,meta=""):
+    statinfo=os.stat(filename)
+    if statinfo.st_size>1000000000000:
+        if statinfo.st_size<5000000000000:
+            segment_size=str(statinfo.st_size/1000)
+        else:
+            print("Error: %s exceeds 5TB file size limit!" % filename)
+            return
+    else:
+        segment_size=_default_global_options['segment_size']
+
     final=[container,filename]
     if meta:
         final=meta+final
     sw_upload("--object-name="+destname,
-        "--segment-size="+_default_global_options['segment_size'],
+        "--segment-size="+segment_size,
         "--use-slo",
         "--changed",
         "--segment-container=.segments_"+container,
