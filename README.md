@@ -1,5 +1,5 @@
 LF Backup
-==
+===
 
 LF Backup stands for large file backup. The script has the following features:
 
@@ -27,7 +27,6 @@ LF Backup stands for large file backup. The script has the following features:
 
 * backup with full path but replace prefix, for example a file /fh/fast/lastname_f/project/file.bam would be 
   copied to container/bucket bam-backup in account Swift__ADM_IT_backup. The target path would be 
-  /bam-bucket/lastname_f/project/file.bam ..... we would need a command option such as --srcroot or --prefix or
-  something like that, e.g. --prefix=/fh/fast
+  /bam-bucket/lastname_f/project/file.bam a --prefix=/fh/fast removes the fs root path from the destination
 
 

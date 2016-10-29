@@ -28,8 +28,7 @@ LF Backup stands for large file backup. The script has the following features:
 
 -  backup with full path but replace prefix, for example a file
    /fh/fast/lastname\_f/project/file.bam would be copied to container/bucket bam-backup in account
-   Swift\_\ *ADM*\ IT\_backup. The target path would be /bam-bucket/lastname\_f/project/file.bam
-   ..... we would need a command option such as --srcroot or --prefix or something like that, e.g.
-   --prefix=/fh/fast
+   Swift\_\ *ADM*\ IT\_backup. The target path would be /bam-bucket/lastname\_f/project/file.bam a
+   --prefix=/fh/fast removes the fs root path from the destination
 
 
