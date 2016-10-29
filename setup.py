@@ -1,6 +1,6 @@
 from setuptools import setup
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
 
 #try:
 #    from pypandoc import convert
@@ -53,7 +53,7 @@ lf-backup is a tool for backing up large files to object storage
     #long_description=read_md('README.md'),
     packages=['lf_backup'],
     scripts=['lf_backup/lf-backup'],
-    author = 'Some Person',
+    author = 'Jeff Katcher',
     author_email = 'dp@nowhere.com',
     url = 'https://github.com/FredHutch/lf-backup', 
     download_url = 'https://github.com/FredHutch/lf-backup/tarball/%s' % __version__,
@@ -61,10 +61,7 @@ lf-backup is a tool for backing up large files to object storage
     classifiers = CLASSIFIERS,
     # 'python-swiftclient>=2.5,<3','python-keystoneclient>=1.5,<2'
     install_requires=[
-        'pip>=8.1.2',
-        'setuptools>=28',
-        'wheel',
-        'python-swiftclient>=3,<4',
+        'python-swiftclient==3.0.0',
         'python-keystoneclient>=2,<3'
         ],
     entry_points={
