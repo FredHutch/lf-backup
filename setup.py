@@ -50,7 +50,7 @@ setup(
     description='''\
 lf-backup is a tool for backing up large files to object storage
 , e.g. swift.''',
-    #long_description=read_md('README.md'),
+    long_description=open('README.rst', 'r').read(),
     packages=['lf_backup'],
     scripts=['lf_backup/lf-backup'],
     author = 'Jeff Katcher',
