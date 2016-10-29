@@ -62,7 +62,8 @@ lf-backup is a tool for backing up large files to object storage
     # 'python-swiftclient>=2.5,<3','python-keystoneclient>=1.5,<2'
     install_requires=[
         'python-swiftclient==3.0.0',
-        'python-keystoneclient>=2,<3'
+        'python-keystoneclient>=2,<3',
+        'psycopg2>=2.6'
         ],
     entry_points={
         # we use console_scripts here to allow virtualenv to rewrite shebangs

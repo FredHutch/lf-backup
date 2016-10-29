@@ -13,6 +13,12 @@
 scriptname=${0##*/}
 cwd=$(pwd)
 
+# get credentials
+
+if [[ -f ~/.lf-backuprc ]]; then
+  source ~/.lf-backuprc
+fi
+
 if [[ -d /app/Lmod/lmod/lmod/init ]]; then
   source /app/Lmod/lmod/lmod/init/bash
   module use /app/Modules/modulefiles
