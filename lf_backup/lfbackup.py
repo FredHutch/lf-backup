@@ -12,9 +12,48 @@ import multiprocessing
 import logging
 import logging.handlers
 
+import psycopg2
+
 import lf_backup
 
 owner_files_dict={}
+
+def read_sql(tag):
+    items=[]
+
+    dbhost=os.environ.get('DBHOST')
+    dbport=os.environ.get('DBPORT')
+    dbname=os.environ.get('DBNAME')
+    dbuser=os.environ.get('DBUSER')
+    dbpass=os.environ.get('DBPASS')
+
+    if dbhost and dbport and dbname and dbuser and dbpass:
+        db_conn_param="dbname='{}' user='{}' password='{}' host='{}' port={}".format(dbname,dbuser,dbpass,dbhost,dbport)
+        try:
+            conn=psycopg2.connect(db_conn_param)
+        except psycopg2.Error as e:
+            print("Error: can't connect to database: %s" % e.pgerror)
+            return items
+
+        cur = conn.cursor()
+        qry = "SET search_path TO {}".format(tag)
+        cur.execute(qry)
+        qry = """SELECT ENCODE(path,'escape') AS path
+           FROM storcrawl_{}.files
+           WHERE
+           st_size >= 3221225472 and
+           (((st_ctime + 608400) >= EXTRACT(EPOCH FROM NOW())) or
+           (st_mtime + 608400) >= EXTRACT(EPOCH FROM NOW()))
+           ORDER BY
+           GREATEST(st_mtime, st_ctime) DESC,
+           LEAST(st_mtime,st_ctime) DESC""".format(tag)
+        cur.execute(qry)
+        results = cur.fetchall()
+        #for row in results:
+        #    print(row)
+        items=[row[0] for row in results]
+
+    return items
 
 # initialize logging to syslog - borrowed from leftover
 def init_logging():
@@ -124,7 +163,7 @@ def backup(parse_args,crier):
     if parse_args.csv:
         input=read_csv(parse_args.input)
     elif parse_args.sql:
-        print("Error: SQL table read not yet implemented")
+        input=read_sql(parse_args.input)
     else:
         print("Fatal error: no legal input type specified!")
 
