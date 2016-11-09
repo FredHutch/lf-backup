@@ -49,8 +49,6 @@ def read_sql(tag):
            LEAST(st_mtime,st_ctime) DESC""".format(tag)
         cur.execute(qry)
         results = cur.fetchall()
-        #for row in results:
-        #    print(row)
         items=[row[0] for row in results]
 
     return items
