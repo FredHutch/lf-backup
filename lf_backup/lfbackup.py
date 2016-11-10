@@ -26,6 +26,7 @@ def read_sql(tag):
     dbname=os.environ.get('DBNAME')
     dbuser=os.environ.get('DBUSER')
     dbpass=os.environ.get('DBPASS')
+    qry=os.environ.get('DBSQL')
 
     if dbhost and dbport and dbname and dbuser and dbpass:
         db_conn_param="dbname='{}' user='{}' password='{}' host='{}' port={}".format(dbname,dbuser,dbpass,dbhost,dbport)
@@ -36,17 +37,18 @@ def read_sql(tag):
             return items
 
         cur = conn.cursor()
-        qry = "SET search_path TO {}".format(tag)
-        cur.execute(qry)
-        qry = """SELECT ENCODE(path,'escape') AS path
-           FROM storcrawl_{}.files
-           WHERE
-           st_size >= 3221225472 and
-           (((st_ctime + 608400) >= EXTRACT(EPOCH FROM NOW())) or
-           (st_mtime + 608400) >= EXTRACT(EPOCH FROM NOW()))
-           ORDER BY
-           GREATEST(st_mtime, st_ctime) DESC,
-           LEAST(st_mtime,st_ctime) DESC""".format(tag)
+        if not qry:
+            qry = "SET search_path TO {}".format(tag)
+            cur.execute(qry)
+            qry = """SELECT ENCODE(path,'escape') AS path
+               FROM storcrawl_{}.files
+               WHERE
+               st_size >= 3221225472 and
+               (((st_ctime + 608400) >= EXTRACT(EPOCH FROM NOW())) or
+               (st_mtime + 608400) >= EXTRACT(EPOCH FROM NOW()))
+               ORDER BY
+               GREATEST(st_mtime, st_ctime) DESC,
+               LEAST(st_mtime,st_ctime) DESC""".format(tag)
         cur.execute(qry)
         results = cur.fetchall()
         items=[row[0] for row in results]
