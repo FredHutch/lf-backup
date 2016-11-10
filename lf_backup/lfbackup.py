@@ -59,10 +59,9 @@ def read_sql(tag):
 def init_logging():
     crier=logging.getLogger('crybaby')
     crier.setLevel(logging.DEBUG)
-    syslog=logging.handlers.SysLogHandler(
-        address='/dev/log',
-        facility='daemon'
-    )
+
+    syslog=logging.handlers.SysLogHandler(address=('loghost',514))
+    #syslog=logging.handlers.SysLogHandler(address='/dev/log',facility='daemon')
     crier.addHandler(syslog)
 
     crier.info('lf-backup starting')
