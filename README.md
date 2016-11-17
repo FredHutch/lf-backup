@@ -107,4 +107,15 @@ The script has the following features:
   /bam-bucket/lastname_f/project/file.bam a --prefix=/fh/fast removes the fs
     root path from the destination
 
+Examples
+---
+
+lfbackup -C frobozz -c filelist.csv
+
+Read list of files from 1st column of 'filename.csv' and backup to Swift container 'frobozz' using environment for authentication.
+
+lfbackup -C grue -s fast
+
+Query the database specified in the environment for the files in table 'storcrawl_fast' and backup to Swift container 'grue' using environment for authentication.
+
 
