@@ -33,7 +33,7 @@ Configuration
 
 create a new swift container called "large-file-backup"
 
-add the export statements for variables starting with ST_  and the postgres authentication to config file .lf-backuprc and set the permissions to 600
+add the export statements for variables starting with ST_  and the postgres authentication to config file .lf-backuprc and set the permissions to 600.  Optionally export PGSQL to override the built-in SQL query. If so, the -s parameter still needs to be passed but will be ignored.
 
 ```
 > nano ~/.lf-backuprc​​
@@ -51,11 +51,13 @@ export PGPASSWORD=
 
 create a cron job /etc/cron.d/ running as root starting ca 7pm:
 
+(Note: the sample cron entry will use the default SQL query of table 'storcrawl_fast')
+
 ```
 > cat /etc/cron.d/lf-backup
 ## enabled on hostname xxx on 11-01-2016
-55 18 * * * root /usr/local/bin/lf-backup --sql "select * from table" \ 
-           --prefix /fh/fast --container large-file-backup-fast >> /var/tmp/lf-backup-fast 2>&1
+55 18 * * * root /usr/local/bin/lf-backup --prefix /fh/fast \
+           --container large-file-backup-fast --sql fast >> /var/tmp/lf-backup-fast 2>&1
 
 ```
 
