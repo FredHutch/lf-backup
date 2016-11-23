@@ -51,11 +51,13 @@ export PGPASSWORD=
 
 create a cron job /etc/cron.d/ running as root starting ca 7pm:
 
+(Note: the sample cron entry will use the default SQL query of table 'storcrawl_fast')
+
 ```
 > cat /etc/cron.d/lf-backup
 ## enabled on hostname xxx on 11-01-2016
-55 18 * * * root /usr/local/bin/lf-backup --sql "select * from table" \ 
-           --prefix /fh/fast --container large-file-backup-fast >> /var/tmp/lf-backup-fast 2>&1
+55 18 * * * root /usr/local/bin/lf-backup --prefix /fh/fast \
+           --container large-file-backup-fast --sql fast >> /var/tmp/lf-backup-fast 2>&1
 
 ```
 
