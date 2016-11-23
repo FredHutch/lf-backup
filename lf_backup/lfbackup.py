@@ -21,12 +21,12 @@ owner_files_dict={}
 def read_sql(tag):
     items=[]
 
-    dbhost=os.environ.get('DBHOST')
-    dbport=os.environ.get('DBPORT')
-    dbname=os.environ.get('DBNAME')
-    dbuser=os.environ.get('DBUSER')
-    dbpass=os.environ.get('DBPASS')
-    qry=os.environ.get('DBSQL')
+    dbhost=os.environ.get('PGHOST')
+    dbport=os.environ.get('PGPORT')
+    dbname=os.environ.get('PGNAME')
+    dbuser=os.environ.get('PGUSER')
+    dbpass=os.environ.get('PGPASS')
+    qry=os.environ.get('PGSQL')
 
     if dbhost and dbport and dbname and dbuser and dbpass:
         db_conn_param="dbname='{}' user='{}' password='{}' host='{}' port={}".format(dbname,dbuser,dbpass,dbhost,dbport)
