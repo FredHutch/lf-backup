@@ -48,6 +48,8 @@ export PGDATABASE=storcrawldb
 export PGUSER=storcrawl_ro
 export PGPASSWORD= 
 ```
+Optionally export PGSQL to override the built-in SQL query. If so, the -s parameter still needs to be passed but will be ignored.
+
 
 create a cron job /etc/cron.d/ running as root starting ca 7pm:
 
