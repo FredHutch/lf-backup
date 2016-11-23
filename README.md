@@ -112,6 +112,8 @@ The script has the following features:
 Examples
 ---
 
+Please note that -c and -s have to be the final parameter
+
 ```
 lfbackup -C frobozz -c filelist.csv
 ```
