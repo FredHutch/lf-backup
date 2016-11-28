@@ -10,6 +10,10 @@ from swiftclient.multithreading import OutputManager
 
 from swiftclient import Connection
 
+import swiftclient
+from pkg_resources import parse_version
+import argparse
+
 # wrapper functions for swiftclient shell functions
 
 def upload_folder_to_swift(fname,swiftname,container,meta=""):
@@ -78,8 +82,49 @@ _default_global_options = {
     "os_endpoint_type": os.environ.get('OS_ENDPOINT_TYPE'),        
 }
 
-def shell_minimal_options():
+def shell_new_minimal_options():
+   parser = argparse.ArgumentParser()
 
+   parser.add_argument('-A', '--auth', dest='auth',
+      default=_default_global_options['auth'])
+   parser.add_argument('-V', '--auth-version',
+      default=os.environ.get('ST_AUTH_VERSION',
+         (os.environ.get('OS_AUTH_VERSION','2.0'))))
+   parser.add_argument('-U', '--user', dest='user',
+      default=_default_global_options['user'])
+   parser.add_argument('-K', '--key', dest='key',
+      default=_default_global_options['key'])
+
+   parser.add_argument('--os_auth_token',default=_default_global_options['os_auth_token'])
+   parser.add_argument('--os_storage_url',default=_default_global_options['os_storage_url'])
+
+   parser.add_argument('--os_username', default=_default_global_options['os_username'])
+   parser.add_argument('--os_password', default=_default_global_options['os_password'])
+   parser.add_argument('--os_auth_url', default=_default_global_options['os_auth_url'])
+
+   parser.add_argument('--os_user_id')
+   parser.add_argument('--os_user_domain_id')
+   parser.add_argument('--os_user_domain_name')
+   parser.add_argument('--os_tenant_id')
+   parser.add_argument('--os_tenant_name',default=_default_global_options['os_tenant_name'] )
+   parser.add_argument('--os_project_id')
+   parser.add_argument('--os_project_domain_id')
+   parser.add_argument('--os_project_name')
+   parser.add_argument('--os_project_domain_name')
+   parser.add_argument('--os_service_type')
+   parser.add_argument('--os_endpoint_type')
+   parser.add_argument('--os_region_name', default=_default_global_options['os_region_name'])
+
+   # new mandatory bogosity required for swiftclient >= 3.0.0
+   parser.add_argument('--debug')
+   parser.add_argument('--info')
+   
+   parser.add_argument('-v', '--verbose', action='count', dest='verbose',
+       default=1, help='Print more info.')
+
+   return parser
+
+def shell_old_minimal_options():
    parser = optparse.OptionParser()
 
    parser.add_option('-A', '--auth', dest='auth',
@@ -121,8 +166,12 @@ def shell_minimal_options():
 
    return parser
 
-def sw_shell(sw_fun,*args):
+if parse_version(swiftclient.__version__)<parse_version('3.1.0'):
+   shell_minimal_options = shell_old_minimal_options
+else:
+   shell_minimal_options = shell_new_minimal_options
 
+def sw_shell(sw_fun,*args):
    if _default_global_options['os_auth_token'] and _default_global_options['os_storage_url']:
       args=args+("--os_auth_token",_default_global_options['os_auth_token'],
          "--os_storage_url",_default_global_options['os_storage_url'])
@@ -130,6 +179,7 @@ def sw_shell(sw_fun,*args):
    args = ('',) + args
    with OutputManager() as output:
       parser = shell_minimal_options()
+
       try:
          sw_fun(parser, list(args), output)
       except (ClientException, RequestException, socket.error) as err:
