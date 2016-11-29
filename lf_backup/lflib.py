@@ -198,7 +198,7 @@ def upload_to_swift(filename,destname,container,meta=""):
     statinfo=os.stat(filename)
     if statinfo.st_size>1000000000000:
         if statinfo.st_size<5000000000000:
-            segment_size=str(statinfo.st_size/1000)
+            segment_size=str(int(statinfo.st_size/1000))
         else:
             print("Error: %s exceeds 5TB file size limit!" % filename)
             return
