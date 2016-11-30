@@ -73,7 +73,7 @@ def init_logging():
 def read_csv(csv_file,field=-1):
     csv_items=[]
 
-    #crier.info("lf-backup: backing up from csv %s" % csv_file)
+    crier.info("lf-backup: backing up from csv %s" % csv_file)
 
     try:
         with open(csv_file) as f:
@@ -82,7 +82,7 @@ def read_csv(csv_file,field=-1):
                     csv_items.append(row[field])
     except OSError:
         print("Error: missing CSV file",csv_file)
-        #crier.info("lf-backup: failed to find csv %s" % csv_file)
+        crier.info("lf-backup: failed to find csv %s" % csv_file)
 
     return csv_items
 
@@ -122,13 +122,13 @@ def backup_file(filename,container,prefix,container_dir,crier):
         statinfo=os.stat(filename)
     except OSError:
         print("Error: missing file",filename)
-        #crier.info("lf-backup: failed to find %s" % filename)
+        crier.info("lf-backup: failed to find %s" % filename)
         return
 
     if check_stored_object(destname,container,container_dir,statinfo.st_size,
         statinfo.st_mtime):
         print("file",filename,"is already current")
-        #crier.info("lf-backup: %s is already current" % filename)
+        crier.info("lf-backup: %s is already current" % filename)
     else:
         # append file to dict keyed to uid for later mailed report
         if statinfo.st_uid not in owner_files_dict:
@@ -137,7 +137,7 @@ def backup_file(filename,container,prefix,container_dir,crier):
 
         # upload file to swift to container:destname
         print("uploading file",filename)
-        #crier.info("lf-backup: uploading file %s" % filename)
+        crier.info("lf-backup: uploading file %s" % filename)
         lf_backup.upload_to_swift(filename,destname,container)
 
 # build db of container files by name
