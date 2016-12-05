@@ -172,10 +172,6 @@ else:
    shell_minimal_options = shell_new_minimal_options
 
 def sw_shell(sw_fun,*args):
-   if _default_global_options['os_auth_token'] and _default_global_options['os_storage_url']:
-      args=args+("--os_auth_token",_default_global_options['os_auth_token'],
-         "--os_storage_url",_default_global_options['os_storage_url'])
-
    args = ('',) + args
    with OutputManager() as output:
       parser = shell_minimal_options()
