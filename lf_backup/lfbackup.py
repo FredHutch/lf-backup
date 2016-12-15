@@ -23,9 +23,9 @@ def read_sql(tag):
 
     dbhost=os.environ.get('PGHOST')
     dbport=os.environ.get('PGPORT')
-    dbname=os.environ.get('PGNAME')
+    dbname=os.environ.get('PGDATABASE')
     dbuser=os.environ.get('PGUSER')
-    dbpass=os.environ.get('PGPASS')
+    dbpass=os.environ.get('PGPASSWORD')
     qry=os.environ.get('PGSQL')
 
     if dbhost and dbport and dbname and dbuser and dbpass:
