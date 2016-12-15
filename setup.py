@@ -1,6 +1,7 @@
 from setuptools import setup
+import codecs
 
-__version__ = "0.4"
+__version__ = "0.4.1"
 
 #try:
 #    from pypandoc import convert
@@ -50,7 +51,7 @@ setup(
     description='''\
 lf-backup is a tool for backing up large files to object storage
 , e.g. swift.''',
-    long_description=open('README.rst', 'r').read(),
+    long_description=codecs.open('README.rst', 'r').read(),
     packages=['lf_backup'],
     scripts=['lf_backup/lf-backup'],
     author = 'Jeff Katcher',
