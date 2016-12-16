@@ -1,7 +1,7 @@
 from setuptools import setup
 import codecs
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 #try:
 #    from pypandoc import convert
@@ -13,14 +13,11 @@ __version__ = "0.4.1"
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
-    "Environment :: OpenStack",
     "Intended Audience :: Customer Service",
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
     "Intended Audience :: End Users/Desktop",
-    "Intended Audience :: Healthcare Industry",
     "Intended Audience :: Information Technology",
-    "Intended Audience :: Science/Research",
     "Intended Audience :: System Administrators",
     "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English",
@@ -32,11 +29,11 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Unix Shell",
     "Topic :: Desktop Environment :: File Managers",
     "Topic :: Internet",
-    "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: System :: Archiving",
     "Topic :: System :: Archiving :: Backup",
     "Topic :: System :: Filesystems",

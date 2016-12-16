@@ -38,16 +38,16 @@ SQL query. If so, the -s parameter still needs to be passed but will be ignored.
 
 ::
 
-    > nano ~/.lf-backuprc​​
+    > nano ~/.lf-backuprc
     > chmod 600 ~/.lf-backuprc
     > cat ~/.lf-backuprc
     export ST_AUTH=https://swiftcluster.domain.org/auth/v1.0
     export ST_USER=swift_account
-    export ST_KEY=RshBXXXXXXXXXXXXXXXXXXXXX​
+    export ST_KEY=RshBXXXXXXXXXXXXXXXXXXXXX
     export PGHOST=pgdb.domain.org
     export PGPORT=32048
     export PGDATABASE=storcrawldb
-    export PGUSER=storcrawl_ro
+    export PGUSER=xxxxxxxx
     export PGPASSWORD= 
 
 create a cron job /etc/cron.d/ running as root starting ca 7pm:

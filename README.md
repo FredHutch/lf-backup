@@ -36,16 +36,16 @@ create a new swift container called "large-file-backup"
 add the export statements for variables starting with ST_  and the postgres authentication to config file .lf-backuprc and set the permissions to 600.  Optionally export PGSQL to override the built-in SQL query. If so, the -s parameter still needs to be passed but will be ignored.
 
 ```
-> nano ~/.lf-backuprc​​
+> nano ~/.lf-backuprc
 > chmod 600 ~/.lf-backuprc
 > cat ~/.lf-backuprc
 export ST_AUTH=https://swiftcluster.domain.org/auth/v1.0
 export ST_USER=swift_account
-export ST_KEY=RshBXXXXXXXXXXXXXXXXXXXXX​
+export ST_KEY=RshBXXXXXXXXXXXXXXXXXXXXX
 export PGHOST=pgdb.domain.org
 export PGPORT=32048
 export PGDATABASE=storcrawldb
-export PGUSER=storcrawl_ro
+export PGUSER=xxxxxxxx
 export PGPASSWORD= 
 ```
 
@@ -73,7 +73,6 @@ make changes in lf-backup and run again:
 > rm -rf /usr/local/lib/python3.5/dist-packages/*; rm -rf /usr/local/bin/*
 > pip3 install -e ./lf-backup
 ```
-
 
 
 
