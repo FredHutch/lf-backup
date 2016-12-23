@@ -18,7 +18,8 @@ import lf_backup
 
 owner_files_dict={}
 
-def read_sql(tag):
+# return list of files from db in same format as returned from csv file
+def read_sql():
     items=[]
 
     dbhost=os.environ.get('PGHOST')
@@ -38,20 +39,24 @@ def read_sql(tag):
 
         cur = conn.cursor()
         if not qry:
-            qry = "SET search_path TO {}".format(tag)
-            cur.execute(qry)
-            qry = """SELECT ENCODE(path,'escape') AS path
-               FROM storcrawl_{}.files
-               WHERE
-               st_size >= 3221225472 and
-               (((st_ctime + 608400) >= EXTRACT(EPOCH FROM NOW())) or
-               (st_mtime + 608400) >= EXTRACT(EPOCH FROM NOW()))
-               ORDER BY
-               GREATEST(st_mtime, st_ctime) DESC,
-               LEAST(st_mtime,st_ctime) DESC""".format(tag)
+            qry = """select find_owner(filename) as owner,
+                filename,
+                to_timestamp(atime) as atime,
+                to_timestamp(mtime) as mtime,
+                to_timestamp(ctime) as ctime,
+                st_size/1024.0/1024.0/1024.0 as size
+             from file_metadata
+             where
+                st_size > 3.0*1024*1024*1024
+                and (
+                  mtime > (extract(epoch from now()) - 604800)
+                  or
+                  ctime > (extract(epoch from now()) - 604800)
+                )"""
+
         cur.execute(qry)
         results = cur.fetchall()
-        items=[row[0] for row in results]
+        items=[row[1] for row in results]
 
     return items
 
@@ -160,9 +165,9 @@ def backup(parse_args,crier):
     input=[]
 
     if parse_args.csv:
-        input=read_csv(parse_args.input)
+        input=read_csv(parse_args.csv)
     elif parse_args.sql:
-        input=read_sql(parse_args.input)
+        input=read_sql()
     else:
         print("Fatal error: no legal input type specified!")
 
@@ -198,10 +203,9 @@ def parse_arguments():
         description="Backup files to Swift from CSV or SQL")
     group=parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-c","--csv",help="input from CSV file",
-        action="store_true")
+        type=str)
     group.add_argument("-s","--sql",help="input from SQL table",
         action="store_true")
-    parser.add_argument('input',type=str)
     parser.add_argument("-p","--prefix",help="strip from source filename",
         type=str)
     parser.add_argument("-C","--container",help="destination container",
