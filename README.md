@@ -33,7 +33,7 @@ Configuration
 
 create a new swift container called "large-file-backup"
 
-add the export statements for variables starting with ST_  and the postgres authentication to config file .lf-backuprc and set the permissions to 600.  Optionally export PGSQL to override the built-in SQL query. If so, the -s parameter still needs to be passed but will be ignored.
+add the export statements for variables starting with ST_  and the postgres authentication to config file .lf-backuprc and set the permissions to 600.  Optionally export PGSQL to override the built-in SQL query.
 
 ```
 > nano ~/.lf-backuprc
@@ -78,7 +78,7 @@ make changes in lf-backup and run again:
 
 The script has the following features:
 
-* take a file list from a csv file or an SQL table and backup each file 
+* take a file list from CSV file or SQL DB and backup each file 
   to object storage (e.g. swift) 
 
 * if the file has an atime within the last x days (configurable) take an md5sum
@@ -111,8 +111,6 @@ The script has the following features:
 Examples
 ---
 
-Please note that -c and -s have to be the final parameter
-
 ```
 lfbackup -C frobozz -c filelist.csv
 ```
@@ -120,9 +118,9 @@ lfbackup -C frobozz -c filelist.csv
 Read list of files from 1st column of 'filename.csv' and backup to Swift container 'frobozz' using environment for authentication.
 
 ```
-lfbackup -C grue -s fast
+lfbackup -C grue -s
 ```
 
-Query the database specified in the environment for the files in table 'storcrawl_fast' and backup to Swift container 'grue' using environment for authentication.
+Query the database specified in the environment for the files and backup to Swift container 'grue' using environment for authentication.
 
 
