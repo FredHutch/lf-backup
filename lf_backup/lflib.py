@@ -16,47 +16,6 @@ import argparse
 
 # wrapper functions for swiftclient shell functions
 
-def upload_folder_to_swift(fname,swiftname,container,meta=""):
-    oldout = sys.stdout
-    olderr = sys.stderr
-    outfile = 'Swift_upload_'+container+'_'+swiftname.rstrip('/').replace('/','_')+".log"
-    outpath = os.path.join(tempfile.gettempdir(),outfile)
-    fh = open(outpath, 'w')
-    sys.stdout = fh
-    sys.stderr = fh
-    print("upload logging to %s" % outpath)
-    print("uploading to %s/%s, please wait ....." % (container,swiftname))
-    sys.stdout.flush()
-    tailpid=subprocess.Popen(gettailcmd(outpath))
-    upload_to_swift(fname,swiftname,container,meta)
-    print("upload logged to %s" % outpath)
-    print("SUCCESS: %s uploaded to %s/%s" % (fname,container,swiftname))
-    sys.stdout = oldout
-    sys.stderr = olderr
-    fh.close()
-
-def download_folder_from_swift(fname,swiftname,container):
-    oldout = sys.stdout
-    olderr = sys.stderr
-    outfile = 'Swift_download_'+container+'_'+swiftname.rstrip('/').replace('/','_')+".log"
-    outpath = os.path.join(tempfile.gettempdir(),outfile)
-    fh = open(outpath, 'w')
-    sys.stdout = fh
-    sys.stderr = fh
-    print("download logging to %s" % outpath)
-    print("downloading from %s/%s, please wait ....." % (container,swiftname))
-    sys.stdout.flush()
-    tailpid=subprocess.Popen(gettailcmd(outpath))
-    sw_download('--prefix='+swiftname,
-        '--output-dir='+fname,
-        '--remove-prefix',
-        container)
-    print("download logged to %s" % outpath)
-    print("SUCCESS: %s/%s downloaded to %s" % (container,swiftname,fname))
-    sys.stdout = oldout
-    sys.stderr = olderr
-    fh.close()
-
 USERNAME = getpass.getuser()
 OS = sys.platform
 IP = socket.gethostbyname(socket.gethostname())
