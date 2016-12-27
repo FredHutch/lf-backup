@@ -170,6 +170,9 @@ def upload_to_swift(filename,destname,container,meta=""):
         "--segment-container=.segments_"+container,
         "--header=X-Object-Meta-Uploaded-by:"+getpass.getuser(),*final)
 
+def download_from_swift(filename,destname,container)
+    sw_download("--output="+destname,container,filename)
+
 # imported code to create connections to allow get_container calls
 
 def create_sw_conn():
