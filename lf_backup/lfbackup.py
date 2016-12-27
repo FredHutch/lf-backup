@@ -12,6 +12,8 @@ import multiprocessing
 import logging
 import logging.handlers
 
+import time,datetime
+
 import psycopg2
 
 import lf_backup
@@ -169,7 +171,8 @@ def backup(parse_args,crier):
     elif parse_args.sql:
         input=read_sql()
     else:
-        print("Fatal error: no legal input type specified!")
+        print("Error: no legal input type or parameter specified!")
+        return
 
     container_dir=build_container_dir(parse_args.container)
 
@@ -178,6 +181,49 @@ def backup(parse_args,crier):
 
     p=multiprocessing.Pool(parse_args.parallel)
     p.map(backup_file_mp,segments)
+
+def restore_file(filename,container,prefix):
+    if prefix:
+       destname=os.path.join(prefix,filename)
+    else:
+       destname=filename
+
+    print("restoring file",filename)
+    #crier.info("lf-backup: restoring file %s" % filename)
+
+    lflib.download_from_swift(filename,destname,container)
+
+# shell to call restore_file with correct separate parameters
+# each parameter is [filename,parse_args]
+def restore_file_mp(x):
+    restore_file(x[0],x[1].container,x[1].prefix)
+
+def days_old(then,now):
+    lm=time.strptime(then,'%Y-%m-%dT%H:%M:%S.%f')
+
+    dt=datetime.datetime.fromtimestamp(time.mktime(lm))
+    diff=now-dt
+
+    return diff.days
+
+def restore(parse_args,crier):
+    if parse_args.restore<1:
+       print("Error: minimum restore age is 1 day")
+       return
+
+    c_objs=lflib.get_sw_container(parse_args.container)
+    print("restoring container",parse_args.container)
+    #crier.info("lf-backup: restoring container %s" % parse_args.container)
+
+    now=datetime.datetime.now()
+
+    # build parallel parameter list
+    r_files=[[obj['name'],parse_args] for obj in c_objs
+        if days_old(obj['last_modified'],now)<=parse_args.restore]
+    #print("r_files",r_files)
+
+    p=multiprocessing.Pool(parse_args.parallel)
+    p.map(restore_file_mp,r_files)
 
 # send SMTP mail to username containing filelist
 def mail_report(username,files):
@@ -206,6 +252,8 @@ def parse_arguments():
         type=str)
     group.add_argument("-s","--sql",help="input from SQL table",
         action="store_true")
+    group.add_argument("-r","--restore",
+        help="restore files newer than RESTORE days",type=int)
     parser.add_argument("-p","--prefix",help="strip from source filename",
         type=str)
     parser.add_argument("-C","--container",help="destination container",
@@ -218,7 +266,11 @@ def parse_arguments():
 def main():
     crier=init_logging()
 
-    backup(parse_arguments(),crier)
+    parse_args=parse_arguments()
+    if parse_args.restore:
+        restore(parse_args,crier)
+    else:
+        backup(parse_args,crier)
 
     mail_reports()
 
