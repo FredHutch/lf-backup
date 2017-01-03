@@ -80,6 +80,8 @@ The script has the following features:
 
 * take a file list from CSV file or SQL DB and backup each file 
   to object storage (e.g. swift) 
+  
+* restore files from object storage newer than specified number of days (>1)
 
 * if the file has an atime within the last x days (configurable) take an md5sum
   of that file and store the md5sum in an attribute / meta data called md5sum 
@@ -123,4 +125,9 @@ lfbackup -C grue -s
 
 Query the database specified in the environment for the files and backup to Swift container 'grue' using environment for authentication.
 
+```
+lfbackup -C flathead -r 7 --prefix /fh/fast/restore42
+```
 
+Restore all objects in Swift container 'flathead' newer than 7 days back to current environment.  The optional --prefix parameter 
+specifies a destination path where objects will be restored.
