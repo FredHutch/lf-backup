@@ -51,15 +51,37 @@ export PGPASSWORD=
 
 create a cron job /etc/cron.d/ running as root starting ca 7pm:
 
-(Note: the sample cron entry will use the default SQL query of table 'storcrawl_fast')
-
 ```
 > cat /etc/cron.d/lf-backup
 ## enabled on hostname xxx on 11-01-2016
 55 18 * * * root /usr/local/bin/lf-backup --prefix /fh/fast \
-           --container large-file-backup-fast --sql fast >> /var/tmp/lf-backup-fast 2>&1
+           --container large-file-backup-fast --sql >> /var/tmp/lf-backup-fast 2>&1
 
 ```
+
+Examples
+---
+
+```
+lf-backup -C frobozz -c filelist.csv
+```
+Read list of files from 1st column of 'filename.csv' and backup to Swift container 'frobozz' using environment for authentication.
+
+```
+lf-backup -C grue -s
+```
+Query the database specified in the environment for the files and backup to Swift container 'grue' using environment for authentication.
+
+```
+lf-backup -C flathead -r 7 --prefix /fh/fast/restore42
+```
+Restore all objects in Swift container 'flathead' newer than 7 days back to current environment.  The optional --prefix parameter 
+specifies a destination path where objects will be restored.
+
+
+
+Test & Dev
+---
 
 For modifications and change testing install a new system and install from local git folder
 
@@ -76,7 +98,7 @@ make changes in lf-backup and run again:
 
 
 
-The script has the following features:
+The script had the following original feature requests:
 
 * take a file list from CSV file or SQL DB and backup each file 
   to object storage (e.g. swift) 
@@ -109,25 +131,3 @@ The script has the following features:
   bam-backup in account Swift__ADM_IT_backup. The target path would be 
   /bam-bucket/lastname_f/project/file.bam a --prefix=/fh/fast removes the fs
     root path from the destination
-
-Examples
----
-
-```
-lf-backup -C frobozz -c filelist.csv
-```
-
-Read list of files from 1st column of 'filename.csv' and backup to Swift container 'frobozz' using environment for authentication.
-
-```
-lf-backup -C grue -s
-```
-
-Query the database specified in the environment for the files and backup to Swift container 'grue' using environment for authentication.
-
-```
-lf-backup -C flathead -r 7 --prefix /fh/fast/restore42
-```
-
-Restore all objects in Swift container 'flathead' newer than 7 days back to current environment.  The optional --prefix parameter 
-specifies a destination path where objects will be restored.
