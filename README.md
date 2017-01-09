@@ -114,19 +114,19 @@ Examples
 ---
 
 ```
-lfbackup -C frobozz -c filelist.csv
+lf-backup -C frobozz -c filelist.csv
 ```
 
 Read list of files from 1st column of 'filename.csv' and backup to Swift container 'frobozz' using environment for authentication.
 
 ```
-lfbackup -C grue -s
+lf-backup -C grue -s
 ```
 
 Query the database specified in the environment for the files and backup to Swift container 'grue' using environment for authentication.
 
 ```
-lfbackup -C flathead -r 7 --prefix /fh/fast/restore42
+lf-backup -C flathead -r 7 --prefix /fh/fast/restore42
 ```
 
 Restore all objects in Swift container 'flathead' newer than 7 days back to current environment.  The optional --prefix parameter 
