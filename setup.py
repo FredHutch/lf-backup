@@ -1,7 +1,7 @@
 from setuptools import setup
 import codecs
 
-__version__ = "0.4.2"
+__version__ = "0.4.3"
 
 #try:
 #    from pypandoc import convert
