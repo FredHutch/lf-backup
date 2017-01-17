@@ -191,7 +191,7 @@ def restore_file(filename,container,prefix):
     print("restoring file",filename)
     #crier.info("lf-backup: restoring file %s" % filename)
 
-    lflib.download_from_swift(filename,destname,container)
+    lf_backup.download_from_swift(filename,destname,container)
 
 # shell to call restore_file with correct separate parameters
 # each parameter is [filename,parse_args]
@@ -211,7 +211,7 @@ def restore(parse_args,crier):
        print("Error: minimum restore age is 1 day")
        return
 
-    c_objs=lflib.get_sw_container(parse_args.container)
+    c_objs=lf_backup.get_sw_container(parse_args.container)
     print("restoring container",parse_args.container)
     #crier.info("lf-backup: restoring container %s" % parse_args.container)
 
