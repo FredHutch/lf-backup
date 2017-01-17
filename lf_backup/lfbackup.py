@@ -182,7 +182,7 @@ def backup(parse_args,crier):
     p=multiprocessing.Pool(parse_args.parallel)
     p.map(backup_file_mp,segments)
 
-def restore_file(filename,container,prefix):
+def restore_file(filename,container,prefix,crier):
     if prefix:
        destname=os.path.join(prefix,filename)
     else:
@@ -194,9 +194,9 @@ def restore_file(filename,container,prefix):
     lf_backup.download_from_swift(filename,destname,container)
 
 # shell to call restore_file with correct separate parameters
-# each parameter is [filename,parse_args]
+# each parameter is [filename,parse_args,crier]
 def restore_file_mp(x):
-    restore_file(x[0],x[1].container,x[1].prefix)
+    restore_file(x[0],x[1].container,x[1].prefix,x[2])
 
 def days_old(then,now):
     lm=time.strptime(then,'%Y-%m-%dT%H:%M:%S.%f')
@@ -218,7 +218,7 @@ def restore(parse_args,crier):
     now=datetime.datetime.now()
 
     # build parallel parameter list
-    r_files=[[obj['name'],parse_args] for obj in c_objs
+    r_files=[[obj['name'],parse_args,crier] for obj in c_objs
         if days_old(obj['last_modified'],now)<=parse_args.restore]
     #print("r_files",r_files)
 
