@@ -189,7 +189,7 @@ def restore_file(filename,container,prefix):
        destname=filename
 
     print("restoring file",filename)
-    #crier.info("lf-backup: restoring file %s" % filename)
+    crier.info("lf-backup: restoring file %s" % filename)
 
     lf_backup.download_from_swift(filename,destname,container)
 
