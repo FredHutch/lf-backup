@@ -41,7 +41,8 @@ def read_sql():
 
         cur = conn.cursor()
         if not qry:
-            qry = """select find_owner(filename) as owner,
+            qry = """select 
+                owner,
                 filename,
                 to_timestamp(atime) as atime,
                 to_timestamp(mtime) as mtime,
